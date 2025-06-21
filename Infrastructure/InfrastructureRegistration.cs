@@ -1,24 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure
 {
-    //public static class InfrastructureRegistration
-    //{
-    //    public static IServiceCollection InfrastureConfiguration(this IServiceCollection services, IConfiguration config)
-    //    {
+    public static class InfrastructureRegistration
+    {
+        public static IServiceCollection InfrastureConfiguration(this IServiceCollection services, IConfiguration config)
+        {
+            services.AddDbContext<AppDbContext>(options =>
+                                                options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
 
-    //        //services.AddScoped<IBookRepository, BookRepository>();
-    //        //services.AddScoped<ICategoryRepository, CategoryRepository>();
-    //        services.AddDbContext<AppDbContext>(options =>
-    //                                            options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
-    //        services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-
-    //        return services;
-    //    }
-    //}
+            return services;
+        }
+    }
 }

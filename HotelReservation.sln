@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36212.18 d17.14
+VisualStudioVersion = 17.14.36212.18
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelReservation", "HotelReservation\HotelReservation.csproj", "{E40F3EEE-656A-4D65-BAAB-FB8FD4876BB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelReservation.Api", "HotelReservation\HotelReservation.Api.csproj", "{E40F3EEE-656A-4D65-BAAB-FB8FD4876BB7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{6D1A86AB-1473-4FEA-BE29-2E48C2CB349E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelReservation.Core", "Core\HotelReservation.Core.csproj", "{6D1A86AB-1473-4FEA-BE29-2E48C2CB349E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{0034C734-3F74-46D0-8B0E-2198C6ECEF4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelReservation.Infrastructure", "Infrastructure\HotelReservation.Infrastructure.csproj", "{0034C734-3F74-46D0-8B0E-2198C6ECEF4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

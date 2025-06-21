@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 namespace Infrastructure.Data
 {
-    public class Context : DbContext
+    public class AppDbContext : DbContext
     {
-        public Context(DbContextOptions<Context> options)
+        public AppDbContext(DbContextOptions<AppDbContext> options)
            : base(options)
         {
         }
