@@ -1,18 +1,11 @@
-﻿namespace HotelReservation.Helper
+﻿namespace Ecom.Api.helper
 {
-    public class APIResponse<T> 
+    public class ResponseApi
     {
-        public APIResponse(int statusCode, T? result = default, string? message = null)
+        public ResponseApi(int statusCode, string message = null)
         {
             StatusCode = statusCode;
             Message = message ?? GetMessageFromStatusCode(StatusCode);
-            Data = result;
-        }
-        public APIResponse(int statusCode, string? message = null)
-        {
-            StatusCode = statusCode;
-            Message = message ?? GetMessageFromStatusCode(StatusCode);
-
         }
         private string GetMessageFromStatusCode(int statusCode)
         {
@@ -35,6 +28,5 @@
         }
         public int StatusCode { get; set; }
         public string? Message { get; set; }
-        public T? Data { get; set; }
     }
 }
