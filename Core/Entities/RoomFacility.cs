@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Entities
+namespace HotelReservation.Core.Entities;
+public class RoomFacility
 {
-    public class RoomFacility:BaseEntity
-    {
-        [ForeignKey(nameof(Room))]
-        public int RoomId { get; set; }
-        public Room? Room { get; set; }
-        public int FacilityId { get; set; }
-        public Facility? Facility { get; set; }
-    }
+    public int ID { get; set; }
+    public string Name { get; set; }=string.Empty;
+
+    public ICollection<Room> Rooms { get; set; } = [];
 }

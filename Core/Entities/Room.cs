@@ -1,26 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HotelReservation.Core.Entities.Enums;
 
-namespace Core.Entities
+namespace HotelReservation.Core.Entities;
+public class Room : BaseModel
 {
-    public class Room : BaseEntity
-    {
-        [ForeignKey(nameof(HotelStaff))]
-        public int HotelStaffId { get; set; }
-        public HotelStaff? HotelStaff { get; set; }
-        public string? Name { get; set; }
-        public Decimal Price { get; set; }
-        public int Capacity { get; set; }
-        public string? Image { get; set; }
-        public ICollection<RoomFacility>? RoomFacilities { get; set; }
-        public Add? Add { get; set; }
-        public ICollection<Comment>? Comments { get; set; }
-        public ICollection<Favorite>? Favorites { get; set; }
-        public ICollection<Rate>? Rates { get; set; }
-    }
+    public int ID { get; set; }
+    public string RoomNumber { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public decimal Price { get; set; } = 0.0m;
+    public int Capacity { get; set; }
+    public RoomType Type { get; set; }
+    public RoomStatus Status { get; set; } = RoomStatus.Available;
+    public bool IsAvailable { get; set; } = true;
+    //check it ana mzwd roomstatus  
+    public int RoomFacilityID { get; set; }
+    public int ReservationsID { get; set; }
+
+
+    public ICollection<RoomFacility> Facilities { get; set; } = [];
+    public ICollection<Reservation> Reservations { get; set; } = [];
 }
