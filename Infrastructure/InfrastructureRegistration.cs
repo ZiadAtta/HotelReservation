@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure
+namespace HotelReservation.Infrastructure
 {
     public static class InfrastructureRegistration
     {

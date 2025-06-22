@@ -73,6 +73,14 @@ namespace Infrastructure.Data
             modelBuilder.Entity<Comment>()
                .HasIndex(c => new { c.UserId, c.RoomId })
                .IsUnique(false);
+
+            modelBuilder.Entity<Room>()
+              .Property(r => r.Price)
+              .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Add>()
+                .Property(a => a.Discount)
+                .HasPrecision(18, 2);
         }
     }
 }
