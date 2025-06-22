@@ -22,6 +22,9 @@ namespace Infrastructure.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            // for appaying TPT (Table Per Type) inheritance strategy
+            modelBuilder.Entity<HotelStaff>().ToTable("HotelStaffs");
+
             modelBuilder.Entity<Room>()
                 .HasOne(r => r.Add)
                 .WithOne(a => a.Room)
