@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Core.Entities
+﻿namespace HotelReservation.Core.Entities
 {
-    public class Facility:BaseEntity
+    public class Facility
     {
-        public string? Name { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public ICollection<RoomFacility> RoomFacilities { get; set; }
     }
 }

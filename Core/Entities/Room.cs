@@ -1,26 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Core.Entities
+﻿namespace HotelReservation.Core.Entities
 {
-    public class Room : BaseEntity
+    public class Room
     {
-        [ForeignKey(nameof(HotelStaff))]
-        public int HotelStaffId { get; set; }
-        public HotelStaff? HotelStaff { get; set; }
-        public string? Name { get; set; }
-        public Decimal Price { get; set; }
+        public int Id { get; set; }
+        public string RoomNumber { get; set; }
+        public string Description { get; set; }
+        public decimal PricePerNight { get; set; }
         public int Capacity { get; set; }
-        public string? Image { get; set; }
-        public ICollection<RoomFacility>? RoomFacilities { get; set; }
-        public Add? Add { get; set; }
-        public ICollection<Comment>? Comments { get; set; }
-        public ICollection<Favorite>? Favorites { get; set; }
-        public ICollection<Rate>? Rates { get; set; }
+        public bool IsAvailable { get; set; } = true;
+        //public string ImageUrl { get; set; }
+        public virtual List<Photo> Photos { get; set; }
+        // Foreign keys
+        public int RoomTypeId { get; set; }
+
+        // Navigation properties
+        public RoomType RoomType { get; set; }
+        public ICollection<RoomFacility> RoomFacilities { get; set; }
+        public ICollection<Reservation> Reservations { get; set; }
+        public ICollection<Offer> Offers { get; set; }
     }
 }
