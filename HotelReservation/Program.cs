@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using static HotelReservation.Api.Middleware.ExceptionMiddleware;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -56,7 +57,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseMiddleware<ExceptionsMiddleware>();
 app.UseHttpsRedirection();
 await DbSeeder.SeedDataAsync(app);
 app.UseAuthorization();

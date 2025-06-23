@@ -1,6 +1,6 @@
 ﻿namespace Ecom.Api.helper
 {
-    public class ExceptionApi : ResponseApi
+    public class ExceptionApi : BaseResponseApi
     {
 
         //private readonly string _details;
