@@ -17,6 +17,9 @@
         public RoomType RoomType { get; set; }
         public ICollection<RoomFacility> RoomFacilities { get; set; }
         public ICollection<Reservation> Reservations { get; set; }
-        public ICollection<Offer> Offers { get; set; }
+
+        // the updates
+       // public ICollection<Offer> Offers { get; set; }
+       public Offer? Offer { get; set; }
     }
 }

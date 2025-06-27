@@ -1,4 +1,6 @@
-﻿namespace HotelReservation.Core.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace HotelReservation.Core.Entities
 {
     public class Offer
     {
@@ -11,6 +13,10 @@
         public bool IsActive { get; set; }
 
         // Navigation properties
-        public ICollection<Room> Rooms { get; set; }
+        // The Updates 
+        //public ICollection<Room> Rooms { get; set; }
+        [ForeignKey(nameof(Room))]
+        public int RoomID { get; set; }
+        public Room? Room { get; set; }
     }
 }

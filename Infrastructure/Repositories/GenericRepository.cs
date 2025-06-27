@@ -15,12 +15,14 @@ namespace Ecom.Infrastructture.Repositories
 
         }
 
-
+        public IQueryable<T> GetAll()
+        {
+            return _context.Set<T>();
+        }
 
         public async Task AddAsync(T entity)
         {
             await _context.Set<T>().AddAsync(entity);
-            await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int id)
@@ -29,7 +31,6 @@ namespace Ecom.Infrastructture.Repositories
             if (entity != null)
             {
                 _context.Set<T>().Remove(entity);
-                await _context.SaveChangesAsync();
             }
 
         }
@@ -70,7 +71,11 @@ namespace Ecom.Infrastructture.Repositories
         public async Task UpdateAsync(int id, T entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+        }
+
+        public Task SaveChangesAsync()
+        {
+            return _context.SaveChangesAsync();
         }
     }
 }

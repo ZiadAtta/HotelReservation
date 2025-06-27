@@ -27,11 +27,6 @@ namespace Infrastructure.Data
 
             builder.Entity<RoomFacility>()
              .HasKey(rf => new { rf.RoomId, rf.FacilityId });
-
-            builder.Entity<Room>()
-                .HasMany(r => r.Offers)
-                .WithMany(o => o.Rooms)
-                .UsingEntity(j => j.ToTable("RoomOffers"));
         }
     }
 }

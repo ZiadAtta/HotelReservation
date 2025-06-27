@@ -6,6 +6,8 @@ namespace Ecom.core.Interfaces
     {
 
         Task<IReadOnlyList<T>> GetAllAsync();
+        IQueryable<T> GetAll();
+
         Task<IReadOnlyList<T>> GetAllAsync(params Expression<Func<T, object>>[] includes);
         Task<T> GetByIdAsync(int id);
         Task<T> GetByIdAsync(int id, params Expression<Func<T, object>>[] includes);
@@ -13,5 +15,6 @@ namespace Ecom.core.Interfaces
         Task AddAsync(T entity);
         Task UpdateAsync(int id, T entity);
         Task DeleteAsync(int id);
+        Task SaveChangesAsync();
     }
 }
