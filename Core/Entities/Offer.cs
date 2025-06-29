@@ -14,9 +14,8 @@ namespace HotelReservation.Core.Entities
 
         // Navigation properties
         // The Updates 
-        //public ICollection<Room> Rooms { get; set; }
         [ForeignKey(nameof(Room))]
-        public int RoomID { get; set; }
+        public int RoomId { get; set; }
         public Room? Room { get; set; }
     }
 }

@@ -86,7 +86,7 @@ namespace HotelReservation.Infrastructure.Services
             var offer = new Offer
             {
                 Discount = model.Discount,
-                RoomID = room.Id
+                RoomId = room.Id
             };
 
             await _offerRepo.AddAsync(offer);
