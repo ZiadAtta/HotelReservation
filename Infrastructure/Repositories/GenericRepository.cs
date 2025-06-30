@@ -19,10 +19,11 @@ namespace Ecom.Infrastructture.Repositories
 
         public async Task AddAsync(T entity)
         {
-            await _context.Set<T>().AddAsync(entity);
-            await _context.SaveChangesAsync();
+           
+                await _context.Set<T>().AddAsync(entity);
+                await _context.SaveChangesAsync();
+         
         }
-
         public async Task DeleteAsync(int id)
         {
             var entity = await _context.Set<T>().FindAsync(id);
@@ -69,8 +70,10 @@ namespace Ecom.Infrastructture.Repositories
 
         public async Task UpdateAsync(int id, T entity)
         {
-            _context.Entry(entity).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            
+                _context.Entry(entity).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            
         }
     }
 }
