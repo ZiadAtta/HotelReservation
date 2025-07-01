@@ -1,17 +1,19 @@
 ﻿using Core.Entities;
-using HotelReservation.Core.DTOs.RoomDTOs;
-using HotelReservation.Core.IServices;
+using Ecom.core.Interfaces;
+using HotelReservation.Core;
 using HotelReservation.Core.DTOs;
+using HotelReservation.Core.DTOs.RoomDTOs;
+using HotelReservation.Core.Entities;
+using HotelReservation.Core.IServices;
+using HotelReservation.Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
-using System.Runtime.CompilerServices;
-using Ecom.core.Interfaces;
-using HotelReservation.Core.Entities;
-using HotelReservation.Infrastructure.Repositories;
-using System.Security.Cryptography.X509Certificates;
 
 namespace HotelReservation.Infrastructure.Services
 {
@@ -96,23 +98,94 @@ namespace HotelReservation.Infrastructure.Services
 
             return true;
         }
-        public async Task<List<GetRoomDTO>> GetAllRoomsAsync()
+        public async Task<List<GetRoomDTO>> GetAllRoomsAsync(RoomPaginationDTO model)
         {
-            var rooms = await _roomRepo.GetAllAsync();
+            var roomsQuery = _roomRepo.GetAll()
+         .Include(r => r.Photos)
+         .Include(r => r.Offer)
+         .Include(r => r.RoomFacilities)
+             .ThenInclude(rf => rf.Facility)
+         .Select(r => new GetRoomDTO
+         {
+             Id = r.Id,
+             RoomNumber = r.RoomNumber,
+             Image = r.Photos.FirstOrDefault().ImageName,
+             Price = r.PricePerNight,
+             Discount = r.Offer != null ? r.Offer.Discount : 0,
+             Tag = r.Capacity,
+             Facilities = r.RoomFacilities.Select(rf => rf.Facility.Name).ToList()
+         });
 
-            return rooms.Select(r => new GetRoomDTO
-            {
-                Id = r.Id,
-                RoomNumber = r.RoomNumber,
-                Image = r.Photos.Select(x=>x.ImageName).ToString(),
-                Price = r.PricePerNight,
-                Discount = r.Offer.Discount,
-                Tag = r.Capacity,
-                Facilities = r.RoomFacilities
-                .Select(rf=>rf.Facility.Name)
-                .ToList()
-            }).ToList();
-
+            return await Pagination<GetRoomDTO>.ToPagedList(roomsQuery, model.PageNumber, model.PageSize);
         }
+
+        public async Task<List<GetRoomDTO>> SearchByNameAsync(SearchRoomDTO model)
+        {
+
+            var roomsQuery = _roomRepo.GetAll()
+         .Include(r => r.Photos)
+         .Include(r => r.Offer)
+         .Include(r => r.RoomFacilities)
+             .ThenInclude(rf => rf.Facility)
+             .Where(r => r.RoomNumber.Contains(model.Name))
+         .Select(r => new GetRoomDTO
+         {
+             Id = r.Id,
+             RoomNumber = r.RoomNumber,
+             Image = r.Photos.FirstOrDefault().ImageName,
+             Price = r.PricePerNight,
+             Discount = r.Offer != null ? r.Offer.Discount : 0,
+             Tag = r.Capacity,
+             Facilities = r.RoomFacilities.Select(rf => rf.Facility.Name).ToList()
+         });
+
+            return await Pagination<GetRoomDTO>.ToPagedList(roomsQuery, model.PageNumber, model.PageSize);
+        }
+
+        public async Task<List<GetRoomDTO>> FilterByTageAsync(FilterByTageDTO model)
+        {
+
+            var roomsQuery = _roomRepo.GetAll()
+         .Include(r => r.Photos)
+         .Include(r => r.Offer)
+         .Include(r => r.RoomFacilities)
+             .ThenInclude(rf => rf.Facility)
+             .Where(r => r.Capacity == model.Tage)
+         .Select(r => new GetRoomDTO
+         {
+             Id = r.Id,
+             RoomNumber = r.RoomNumber,
+             Image = r.Photos.FirstOrDefault().ImageName,
+             Price = r.PricePerNight,
+             Discount = r.Offer != null ? r.Offer.Discount : 0,
+             Tag = r.Capacity,
+             Facilities = r.RoomFacilities.Select(rf => rf.Facility.Name).ToList()
+         });
+
+            return await Pagination<GetRoomDTO>.ToPagedList(roomsQuery, model.PageNumber, model.PageSize);
+        }
+
+        public async Task<List<GetRoomDTO>> FilterByFacilityAsync(FilterByFacilityDTO model)
+        {
+            var roomsQuery = _roomRepo.GetAll()
+                .Include(r => r.Photos)
+                .Include(r => r.Offer)
+                .Include(r => r.RoomFacilities)
+                    .ThenInclude(rf => rf.Facility)
+                .Where(r => r.RoomFacilities.Any(rf => rf.Facility.Name == model.FacilityName)) 
+                .Select(r => new GetRoomDTO
+                {
+                    Id = r.Id,
+                    RoomNumber = r.RoomNumber,
+                    Image = r.Photos.FirstOrDefault().ImageName,
+                    Price = r.PricePerNight,
+                    Discount = r.Offer != null ? r.Offer.Discount : 0,
+                    Tag = r.Capacity,
+                    Facilities = r.RoomFacilities.Select(rf => rf.Facility.Name).ToList()
+                });
+
+            return await Pagination<GetRoomDTO>.ToPagedList(roomsQuery, model.PageNumber, model.PageSize);
+        }
+
     }
 }

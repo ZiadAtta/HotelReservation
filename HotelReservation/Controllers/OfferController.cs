@@ -1,4 +1,5 @@
 ﻿using HotelReservation.Core.DTOs.OfferDTOs;
+using HotelReservation.Core.DTOs.RoomDTOs;
 using HotelReservation.Core.IServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -50,5 +51,32 @@ namespace HotelReservation.Api.Controllers
 
             return Ok("Offer deleted successfully.");
         }
-    }
+        [HttpGet("SearchByName")]
+        public async Task<IActionResult> SearchByName([FromQuery] SearchRoomDTO model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                return BadRequest(errors);
+            }
+            var offers = await _offerService.SearchByName(model);
+            if (offers == null || !offers.Any())
+                return NotFound("No offers found matching the search criteria.");
+            return Ok(offers);
+        }
+        [HttpGet("GetOfferRooms")]
+        public async Task<IActionResult> GetOffersByRoomId([FromQuery] RoomPaginationDTO model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                return BadRequest(errors);
+            }
+            var offers = await _offerService.GetOffersByRoomId(model);
+            if (offers == null || !offers.Any())
+                return NotFound("No offers found for the specified room.");
+            return Ok(offers);
+
+        }
+        }
 }

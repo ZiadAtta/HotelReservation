@@ -1,8 +1,11 @@
 ﻿using Ecom.core.Interfaces;
+using HotelReservation.Core;
 using HotelReservation.Core.DTOs.FacilityDTOs;
 using HotelReservation.Core.DTOs.OfferDTOs;
+using HotelReservation.Core.DTOs.RoomDTOs;
 using HotelReservation.Core.Entities;
 using HotelReservation.Core.IServices;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -86,6 +89,44 @@ namespace HotelReservation.Infrastructure.Services
             await _offerRepo.SaveChangesAsync();
 
             return true;
+        }
+        public async Task<List<GetOfferDTO>> GetOffersByRoomId(RoomPaginationDTO model)
+        {
+            var offerrooms = _offerRepo.GetAll()
+                .Include(x=>x.Room)
+                .Select(o => new GetOfferDTO
+                {
+                    RoomId = o.RoomId,
+                    Price = o.Room.PricePerNight,
+                    capacity = o.Room.Capacity,
+                    Name = o.Room.RoomNumber,
+                    OfferId = o.Id,
+                    Discount = o.Discount,
+                    IsActive = o.IsActive,
+                });
+
+            return await Pagination<GetOfferDTO>.ToPagedList(offerrooms, model.PageNumber, model.PageSize);
+
+        }
+
+        public async Task<List<GetOfferDTO>> SearchByName(SearchRoomDTO model)
+        {
+            var offerrooms = _offerRepo.GetAll()
+                .Include(x => x.Room)
+                .Where(x=>x.Room.RoomNumber == model.Name)
+                .Select(o => new GetOfferDTO
+                {
+                    RoomId = o.RoomId,
+                    Price = o.Room.PricePerNight,
+                    capacity = o.Room.Capacity,
+                    Name = o.Room.RoomNumber,
+                    OfferId = o.Id,
+                    Discount = o.Discount,
+                    IsActive = o.IsActive,
+                });
+
+            return await Pagination<GetOfferDTO>.ToPagedList(offerrooms, model.PageNumber, model.PageSize);
+
         }
     }
 }

@@ -13,7 +13,7 @@ namespace HotelReservation.Core.DTOs.RoomDTOs
         public string? Image { get; set; }
         public decimal Price { get; set; }
         public decimal Discount { get; set; }
-        /// <summary>
+        /// <summary>   
         /// the capacity of the room
         /// </summary>
         public int Tag { get; set; }
