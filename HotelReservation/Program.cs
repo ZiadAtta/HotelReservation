@@ -1,3 +1,5 @@
+using Ecom.core.Interfaces;
+using Ecom.Infrastructture.Repositories;
 using HotelReservation.Core.Entities;
 using HotelReservation.Core.IServices;
 using HotelReservation.Core.Services;
@@ -13,6 +15,8 @@ using static HotelReservation.Api.Middleware.ExceptionMiddleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddMemoryCache();
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -24,6 +28,14 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                .AddEntityFrameworkStores<AppDbContext>()
                .AddDefaultTokenProviders();
+
+// register automapper
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+
+
+
+
 
 // JWT Configuration
 // Authentication
@@ -47,8 +59,12 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
     };
 });
+// Register application services
 
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IReservationService, ReservationService>();
+builder.Services.AddScoped<IGenericRepository<Reservation>, GenericRepository<Reservation>>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
